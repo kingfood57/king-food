@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>King Food 57 – Food & Drink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --yellow: #FFD000;
+      --yellow-dark: #E6B800;
+      --yellow-light: #FFF3A3;
+      --black: #0A0A0A;
+      --black-soft: #161616;
+      --black-card: #1E1E1E;
+      --white: #FFFFFF;
+      --gray: #888888;
+      --gray-light: #2A2A2A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,208,0,0.15);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--yellow);
+    }
+
+    .nav-logo span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--yellow);
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--yellow); }
+
+    .nav-cta {
+      background: var(--yellow);
+      color: var(--black) !important;
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-weight: 700 !important;
+    }
+
+    .nav-cta:hover { background: var(--yellow-dark); color: var(--black) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,208,0,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255,208,0,0.06) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,208,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,208,0,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,208,0,0.15);
+      border: 1px solid rgba(255,208,0,0.4);
+      color: var(--yellow);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-logo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid var(--yellow);
+      box-shadow: 0 0 60px rgba(255,208,0,0.3);
+      margin: 0 auto 28px;
+      display: block;
+      animation: fadeUp 0.9s ease both 0.1s;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 8rem);
+      letter-spacing: 4px;
+      line-height: 0.95;
+      animation: fadeUp 1s ease both 0.2s;
+    }
+
+    .hero h1 span { color: var(--yellow); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--gray);
+      margin: 20px 0 40px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      animation: fadeUp 1s ease both 0.3s;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 1s ease both 0.4s;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 6px 30px rgba(255,208,0,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(255,208,0,0.5);
+      background: var(--yellow-dark);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    /* ─── SECTION COMMON ─── */
+    section { padding: 90px 5%; }
+
+    .section-label {
+      display: inline-block;
+      color: var(--yellow);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 50px;
+    }
+
+    .section-title span { color: var(--yellow); }
+
+    /* ─── INFO STRIP ─── */
+    .info-strip {
+      background: var(--yellow);
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 40px;
+      color: var(--black);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .info-item:last-child { border-right: none; }
+
+    .info-icon { font-size: 1.4rem; }
+
+    /* ─── MENU ─── */
+    #menu { background: var(--black-soft); }
+
+    .menu-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 50px;
+    }
+
+    .tab-btn {
+      background: var(--gray-light);
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .tab-btn:hover { background: rgba(255,208,0,0.2); color: var(--yellow); }
+    .tab-btn.active { background: var(--yellow); color: var(--black); }
+
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .menu-item {
+      background: var(--black-card);
+      border: 1px solid rgba(255,208,0,0.08);
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .menu-item:hover {
+      border-color: rgba(255,208,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    .menu-item-name {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .menu-item-desc {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 3px;
+    }
+
+    .menu-item-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .price-tag {
+      background: rgba(255,208,0,0.1);
+      border: 1px solid rgba(255,208,0,0.25);
+      color: var(--yellow);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .price-label {
+      font-size: 0.65rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: right;
+    }
+
+    .menu-item-prices {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    /* ─── ORDER CTA ─── */
+    .order-section {
+      background: var(--yellow);
+      text-align: center;
+      padding: 80px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-section::before {
+      content: '👑';
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.05;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .order-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: var(--black);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .order-section p {
+      color: rgba(0,0,0,0.6);
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 36px;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #25D366;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 18px 44px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+    }
+
+    .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+    .whatsapp-icon { font-size: 1.4rem; }
+
+    /* ─── INFO & MAP ─── */
+    #info {
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .info-block h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      color: var(--yellow);
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .info-row:last-child { border-bottom: none; }
+
+    .info-row-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-row-text strong {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+
+    .info-row-text span {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .day-item {
+      display: flex;
+      flex-direction: column;
+      background: var(--black-card);
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+
+    .day-name { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+    .day-hours { font-size: 0.85rem; color: #4ade80; font-weight: 600; }
+
+    .map-block {
+      position: relative;
+    }
+
+    .map-container {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(255,208,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      aspect-ratio: 4/3;
+      position: relative;
+      background: var(--black-card);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .map-overlay-btn {
+      display: block;
+      margin-top: 16px;
+      text-align: center;
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .map-overlay-btn:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(255,208,0,0.1);
+      padding: 40px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--yellow);
+      letter-spacing: 3px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--yellow); }
+
+    .footer-copy {
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+      width: 100%;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      #info { grid-template-columns: 1fr; }
+      .info-strip { flex-direction: column; }
+      .info-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); justify-content: center; }
+      .info-item:last-child { border-bottom: none; }
+    }
+
+    /* ─── FLOATING WHATSAPP ─── */
+    .float-wa {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      background: #25D366;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: pulse 2.5s infinite;
+    }
+
+    .float-wa:hover { transform: scale(1.1); box-shadow: 0 10px 40px rgba(37,211,102,0.7); }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 6px 30px rgba(37,211,102,0.5); }
+      50% { box-shadow: 0 6px 50px rgba(37,211,102,0.8); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP -->
+<a class="float-wa" href="https://wa.me/212722210197?text=Bonjour%2C%20je%20voudrais%20passer%20une%20commande%20!" target="_blank" title="Commander sur WhatsApp">💬</a>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="/mnt/user-data/uploads/IMG_4307.jpeg" alt="King Food 57 Logo"/>
+    <span>King Food 57</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#info">Infos</a></li>
+    <li><a href="https://wa.me/212722210197?text=Bonjour%2C%20je%20voudrais%20passer%20une%20commande%20!" target="_blank" class="nav-cta">Commander</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🍔 Khouribga · Food & Drink</div>
+    <img src="/mnt/user-data/uploads/IMG_4307.jpeg" alt="King Food 57" class="hero-logo"/>
+    <h1>KING <span>FOOD</span> 57</h1>
+    <p class="hero-sub">Pizza · Tacos · Burgers · Grillades · Et plus</p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn-primary">📋 Voir le menu</a>
+      <a href="https://wa.me/212722210197?text=Bonjour%2C%20je%20voudrais%20passer%20une%20commande%20!" target="_blank" class="btn-secondary">📱 Commander via WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-item"><span class="info-icon">⏰</span> Ouvert 24h/24 · 7j/7</div>
+  <div class="info-item"><span class="info-icon">📍</span> Rue Marrakech, Khouribga</div>
+  <div class="info-item"><span class="info-icon">📱</span> +212 722-210197</div>
+  <div class="info-item"><span class="info-icon">🚀</span> Livraison disponible</div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <span class="section-label">Notre Carte</span>
+  <h2 class="section-title">LE <span>MENU</span></h2>
+
+  <div class="menu-tabs">
+    <button class="tab-btn active" onclick="showTab('pizza')">🍕 Pizza</button>
+    <button class="tab-btn" onclick="showTab('tacos')">🌮 Tacos</button>
+    <button class="tab-btn" onclick="showTab('burgers')">🍔 Burgers</button>
+    <button class="tab-btn" onclick="showTab('wraps')">🌯 Wraps</button>
+    <button class="tab-btn" onclick="showTab('stromboli')">🥙 Stromboli</button>
+    <button class="tab-btn" onclick="showTab('panzerotti')">🥟 Panzerotti</button>
+    <button class="tab-btn" onclick="showTab('plats')">🍽️ Plats</button>
+    <button class="tab-btn" onclick="showTab('cosamia')">🫓 Cosamia</button>
+    <button class="tab-btn" onclick="showTab('sandwiches')">🥪 Sandwiches</button>
+    <button class="tab-btn" onclick="showTab('salades')">🥗 Salades</button>
+    <button class="tab-btn" onclick="showTab('nuggets')">🍗 Nuggets</button>
+  </div>
+
+  <!-- PIZZA -->
+  <div class="menu-panel active" id="panel-pizza">
+    <div class="menu-grid">
+      <!-- Helper: price cols = Petite / Moyenne -->
+      <div class="menu-item"><div><div class="menu-item-name">Margarita</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">25 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">28 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Végétarienne</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">25 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">30 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Thon</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">30 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Charcuterie</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">30 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">30 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">4 Fromages</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">45 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">40 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Fruits de Mer</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">40 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">4 Saisons</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">40 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">Moyenne</span></div></div></div>
+      <div class="menu-item" style="border-color:rgba(255,208,0,0.4)"><div><div class="menu-item-name">⭐ Spécial King 57</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">45 DH</span><span class="price-label">Petite</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">Moyenne</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- TACOS -->
+  <div class="menu-panel" id="panel-tacos">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">32 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">45 DH</span><span class="price-label">XL</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Saucisse</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">30 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">45 DH</span><span class="price-label">XL</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">33 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">45 DH</span><span class="price-label">XL</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Nuggets</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">XL</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">XL</span></div></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Cordon Bleu</div></div><div class="menu-item-prices"><div class="menu-item-price"><span class="price-tag">35 DH</span><span class="price-label">M</span></div><div class="menu-item-price"><span class="price-tag">50 DH</span><span class="price-label">XL</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- BURGERS -->
+  <div class="menu-panel" id="panel-burgers">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Cheese Burger</div></div><div class="menu-item-price"><span class="price-tag">30 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Chicken Burger</div></div><div class="menu-item-price"><span class="price-tag">30 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Double Burger</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+      <div class="menu-item" style="border-color:rgba(255,208,0,0.4)"><div><div class="menu-item-name">⭐ King Burger</div></div><div class="menu-item-price"><span class="price-tag">50 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- WRAPS -->
+  <div class="menu-panel" id="panel-wraps">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-price"><span class="price-tag">33 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Nuggets</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Cordon Bleu</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- STROMBOLI -->
+  <div class="menu-panel" id="panel-stromboli">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Nuggets</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Saucisse</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-price"><span class="price-tag">38 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-price"><span class="price-tag">45 DH</span></div></div>
+      <div class="menu-item" style="border-color:rgba(255,208,0,0.4)"><div><div class="menu-item-name">⭐ Stromboli King Food</div></div><div class="menu-item-price"><span class="price-tag">50 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- PANZEROTTI -->
+  <div class="menu-panel" id="panel-panzerotti">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Saucisse</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Nuggets</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-price"><span class="price-tag">38 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-price"><span class="price-tag">45 DH</span></div></div>
+      <div class="menu-item" style="border-color:rgba(255,208,0,0.4)"><div><div class="menu-item-name">⭐ King Food</div></div><div class="menu-item-price"><span class="price-tag">50 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- PLATS -->
+  <div class="menu-panel" id="panel-plats">
+    <div style="margin-bottom:28px">
+      <div class="section-label" style="font-size:0.7rem;margin-bottom:12px">🍽️ Grillades</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="menu-item-name">Cordon Bleu</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Chicken Fries</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Brochette Dinde</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Brochette Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Nuggets</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Grillade Mixte</div></div><div class="menu-item-price"><span class="price-tag">45 DH</span></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label" style="font-size:0.7rem;margin-bottom:12px">🍝 Pâtes</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="menu-item-name">Carbonara</div></div><div class="menu-item-price"><span class="price-tag">30 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Thon</div></div><div class="menu-item-price"><span class="price-tag">33 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Alfredo</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Bolognaise</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">4 Fromages</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+        <div class="menu-item"><div><div class="menu-item-name">Fruits de Mer</div></div><div class="menu-item-price"><span class="price-tag">50 DH</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COSAMIA -->
+  <div class="menu-panel" id="panel-cosamia">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Saucisse</div></div><div class="menu-item-price"><span class="price-tag">30 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Dinde Fumée</div></div><div class="menu-item-price"><span class="price-tag">30 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-price"><span class="price-tag">33 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-price"><span class="price-tag">40 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- SANDWICHES -->
+  <div class="menu-panel" id="panel-sandwiches">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Thon</div></div><div class="menu-item-price"><span class="price-tag">17 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Poulet</div></div><div class="menu-item-price"><span class="price-tag">17 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Saucisse</div></div><div class="menu-item-price"><span class="price-tag">17 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Viande Hachée</div></div><div class="menu-item-price"><span class="price-tag">18 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Mixte</div></div><div class="menu-item-price"><span class="price-tag">20 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- SALADES -->
+  <div class="menu-panel" id="panel-salades">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">Salade Marocaine</div></div><div class="menu-item-price"><span class="price-tag">15 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Salade Mexicaine</div></div><div class="menu-item-price"><span class="price-tag">25 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Salade Niçoise</div></div><div class="menu-item-price"><span class="price-tag">28 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Salade Italienne</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">Salade Avocat Crevette</div></div><div class="menu-item-price"><span class="price-tag">45 DH</span></div></div>
+      <div class="menu-item" style="border-color:rgba(255,208,0,0.4)"><div><div class="menu-item-name">⭐ Salade King 57</div></div><div class="menu-item-price"><span class="price-tag">50 DH</span></div></div>
+    </div>
+  </div>
+
+  <!-- NUGGETS -->
+  <div class="menu-panel" id="panel-nuggets">
+    <div class="menu-grid">
+      <div class="menu-item"><div><div class="menu-item-name">4 Pièces</div></div><div class="menu-item-price"><span class="price-tag">15 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">8 Pièces</div></div><div class="menu-item-price"><span class="price-tag">25 DH</span></div></div>
+      <div class="menu-item"><div><div class="menu-item-name">12 Pièces</div></div><div class="menu-item-price"><span class="price-tag">35 DH</span></div></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ORDER CTA -->
+<div class="order-section">
+  <h2>COMMANDEZ MAINTENANT</h2>
+  <p>Cliquez sur le bouton ci-dessous pour passer votre commande via WhatsApp</p>
+  <a href="https://wa.me/212722210197?text=Bonjour%2C%20je%20voudrais%20passer%20une%20commande%20!" target="_blank" class="btn-whatsapp">
+    <span class="whatsapp-icon">💬</span> Commander sur WhatsApp
+  </a>
+</div>
+
+<!-- INFO & MAP -->
+<section id="info">
+  <div class="info-block">
+    <h3>Infos & Horaires</h3>
+
+    <div class="info-row">
+      <span class="info-row-icon">📍</span>
+      <div class="info-row-text">
+        <strong>Adresse</strong>
+        <span>Rue Marrakech, 25000 Khouribga, Maroc</span>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span class="info-row-icon">📞</span>
+      <div class="info-row-text">
+        <strong>Téléphone / WhatsApp</strong>
+        <span><a href="https://wa.me/212722210197" target="_blank" style="color:var(--yellow);text-decoration:none">+212 722-210197</a></span>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span class="info-row-icon">⏰</span>
+      <div class="info-row-text">
+        <strong>Horaires d'ouverture</strong>
+        <div class="hours-grid" style="margin-top:10px">
+          <div class="day-item"><span class="day-name">Lundi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Mardi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Mercredi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Jeudi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Vendredi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Samedi</span><span class="day-hours">Ouvert 24h/24</span></div>
+          <div class="day-item"><span class="day-name">Dimanche</span><span class="day-hours">Ouvert 24h/24</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span class="info-row-icon">📱</span>
+      <div class="info-row-text">
+        <strong>Réseaux sociaux</strong>
+        <span>
+          <a href="https://www.instagram.com/king_food_57" target="_blank" style="color:var(--yellow);text-decoration:none;margin-right:16px">📸 Instagram</a>
+          <a href="https://www.facebook.com/share/19fcAm4k3H/" target="_blank" style="color:var(--yellow);text-decoration:none">👍 Facebook</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-block">
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps?q=32.88130,-6.91500&hl=fr&z=16&output=embed"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="King Food 57 Location">
+      </iframe>
+    </div>
+    <a
+      href="https://maps.apple.com/?ll=32.88130,-6.91500&q=King+Food+57&z=16"
+      target="_blank"
+      class="map-overlay-btn"
+      onclick="openMap(event)">
+      📍 Ouvrir dans Maps
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KING FOOD 57</div>
+  <div class="footer-links">
+    <a href="#menu">Menu</a>
+    <a href="https://wa.me/212722210197?text=Bonjour%2C%20je%20voudrais%20passer%20une%20commande%20!" target="_blank">Commander</a>
+    <a href="https://www.instagram.com/king_food_57" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/share/19fcAm4k3H/" target="_blank">Facebook</a>
+    <a href="#info">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 King Food 57 · Rue Marrakech, Khouribga · Tous droits réservés</div>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function openMap(e) {
+    e.preventDefault();
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      window.open('https://maps.apple.com/?ll=32.88130,-6.91500&q=King+Food+57&z=16', '_blank');
+    } else {
+      window.open('https://www.google.com/maps?q=32.88130,-6.91500', '_blank');
+    }
+  }
+</script>
+
+</body>
+</html>
